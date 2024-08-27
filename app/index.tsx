@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, View, Text, Button } from 'react-native';
+import { StyleSheet, View, Text, Pressable } from 'react-native';
 import { LocationObject } from 'expo-location';
 import WeatherDisplay from '../components/WeatherDisplay';
 import { getLocation, getWeather, storeWeather } from '../services/weatherService';
@@ -56,14 +56,16 @@ export default function Index() {
     <View style={styles.container}>
       <Text style={styles.title}>Weather Applet</Text>
       {error && <Text style={styles.error}>{error}</Text>}
-      <Button 
-        title="Get Weather"
-        disabled={isLoading || !location}
-        onPress={fetchWeather}
-      />
+      <Pressable style={styles.button} onPress={fetchWeather} disabled={isLoading || !location}>
+        <Text style={styles.buttonText}>Get Weather</Text>
+      </Pressable>
       {isLoading && <Text style={styles.loading}>Loading...</Text>}
       <WeatherDisplay weatherData={weather} />
-      {weather && <Button title="Store Weather" onPress={saveWeather} />}
+      {weather &&
+        <Pressable style={styles.button} onPress={saveWeather}>
+          <Text style={styles.buttonText}>Save Weather</Text>
+        </Pressable>
+      }
     </View>
   );
 }
@@ -91,4 +93,12 @@ const styles = StyleSheet.create({
     marginTop: 10,
     alignItems: 'center',
   },
+  button: {
+    backgroundColor: '#038aff',
+    padding: 10,
+    borderRadius: 5,
+  },
+  buttonText: {
+    color: 'white'
+  }
 });
